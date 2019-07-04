@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Hexo,Typora,">
 
 
 
@@ -79,13 +79,28 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="使用BERT半年多了，一直用的是Huggingface的pytorch代码，最近毕业抽空跟着Google官方Tensorflow代码敲了一遍，为了能够做到深入理解并复现，在这里详细分析BERT的官方代码。争取做到，能够理解后复现出来。上车🚗🚗🚗  tokenization.py这是对BERT输入进行分词的代码部分，我们先绘制出 tokenization.py 文件的结构，然后逐个函数逐行分析">
+<meta name="keywords" content="Hexo,Typora">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bert_squad_tf">
+<meta property="og:url" content="http://yoursite.com/2019/07/04/bert-squad-tf/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="使用BERT半年多了，一直用的是Huggingface的pytorch代码，最近毕业抽空跟着Google官方Tensorflow代码敲了一遍，为了能够做到深入理解并复现，在这里详细分析BERT的官方代码。争取做到，能够理解后复现出来。上车🚗🚗🚗  tokenization.py这是对BERT输入进行分词的代码部分，我们先绘制出 tokenization.py 文件的结构，然后逐个函数逐行分析">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/bert-squad-tf/image-20190703180643549.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/bert-squad-tf/bert-squad-tf/image-20190703180540319.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/bert-squad-tf/bert-squad-tf/image-20190703013613264.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/bert-squad-tf/bert-squad-tf/image-20190702234605092.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/bert-squad-tf/bert-squad-tf/image-20190702200034350.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/bert-squad-tf/bert-squad-tf/image-20190703184633330.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/bert-squad-tf/bert-squad-tf/image-20190704121235449.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/bert-squad-tf/bert-squad-tf/image-20190703085937162.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/04/bert-squad-tf/bert-squad-tf/image-20190702102852057.png">
+<meta property="og:updated_time" content="2019-07-04T16:47:47.336Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="bert_squad_tf">
+<meta name="twitter:description" content="使用BERT半年多了，一直用的是Huggingface的pytorch代码，最近毕业抽空跟着Google官方Tensorflow代码敲了一遍，为了能够做到深入理解并复现，在这里详细分析BERT的官方代码。争取做到，能够理解后复现出来。上车🚗🚗🚗  tokenization.py这是对BERT输入进行分词的代码部分，我们先绘制出 tokenization.py 文件的结构，然后逐个函数逐行分析">
+<meta name="twitter:image" content="http://yoursite.com/bert-squad-tf/image-20190703180643549.png">
 
 
 
@@ -115,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/04/bert-squad-tf/">
 
 
 
 
 
-  <title>Hexo</title>
+  <title>bert_squad_tf | Hexo</title>
   
 
 
@@ -140,8 +155,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,9 +228,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -246,9 +260,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/04/bert-squad-tf/" itemprop="url">bert_squad_tf</a></h1>
+          <h1 class="post-title" itemprop="name headline">bert_squad_tf</h1>
         
 
         <div class="post-meta">
@@ -331,9 +343,7 @@
       
 
       
-        
-          
-            <p>使用BERT半年多了，一直用的是Huggingface的pytorch代码，最近毕业抽空跟着Google官方Tensorflow代码敲了一遍，为了能够做到深入理解并复现，在这里详细分析BERT的官方代码。争取做到，能够理解后复现出来。上车🚗🚗🚗</p>
+        <p>使用BERT半年多了，一直用的是Huggingface的pytorch代码，最近毕业抽空跟着Google官方Tensorflow代码敲了一遍，为了能够做到深入理解并复现，在这里详细分析BERT的官方代码。争取做到，能够理解后复现出来。上车🚗🚗🚗</p>
 <hr>
 <h6 id="tokenization-py"><a href="#tokenization-py" class="headerlink" title="tokenization.py"></a>tokenization.py</h6><p>这是对BERT输入进行分词的代码部分，我们先绘制出 tokenization.py 文件的结构，然后逐个函数逐行分析。</p>
 <p><img src="/bert-squad-tf/image-20190703180643549.png" alt="image-20190703180643549"></p>
@@ -699,8 +709,6 @@
 </li>
 </ul>
 
-          
-        
       
     </div>
     
@@ -715,14 +723,22 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+          
+            <a href="/tags/Typora/" rel="tag"># Typora</a>
+          
+        </div>
+      
+
+      
+      
+      
 
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -732,10 +748,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -743,6 +760,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -763,8 +784,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -824,6 +854,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#tokenization-py"><span class="nav-number">1.</span> <span class="nav-text">tokenization.py</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#modeling-py"><span class="nav-number">2.</span> <span class="nav-text">modeling.py</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#optimization-py"><span class="nav-number">3.</span> <span class="nav-text">optimization.py</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#run-squad-py"><span class="nav-number">4.</span> <span class="nav-text">run_squad.py</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -957,6 +1003,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
